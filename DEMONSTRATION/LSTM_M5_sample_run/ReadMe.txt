@@ -19,8 +19,7 @@ The third argument "0" denotes that the program will load and use the pre-traine
 
 The output obtained by executing the above command is stored in the file named output in the zip. This output file is the same as the normalized_testing file except that it has one additional column (the first column) titled "Predicted Label", which contains labels predicted by our program using a probability threshold of 75%.
 
-Our program is run on Python 3.6.8, Keras 2.2.4, and TensorFlow 1.12.0.
-
+Our program is run on Python 3.10.7, Keras 2.10.0, TensorFlow 2.10.0.
 
 
 
