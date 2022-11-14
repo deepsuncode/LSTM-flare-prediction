@@ -20,11 +20,12 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import class_weight
 from keras.models import *
 from keras.layers import *
+from keras import regularizers
 import csv
 import sys
 import numpy as np
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 try :
     import tensorflow as tf
     tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -159,7 +160,7 @@ def lstm(nclass, n_features, series_len):
     layer1_out = Dense(200, activation='relu')(attention_mul)
     layer2_out = Dense(500, activation='relu')(layer1_out)
     output = Dense(nclass, activation='softmax', activity_regularizer=regularizers.l2(0.0001))(layer2_out)
-    model = Model(input=[inputs], output=output)
+    model = Model(inputs=[inputs], outputs=output)
     return model
 
 
@@ -189,8 +190,9 @@ if __name__ == '__main__':
         y_train = np.array(y_train_data)
         y_train_tr = data_transform(y_train)
 
-        class_weights = class_weight.compute_class_weight('balanced',
-                                                          np.unique(y_train), y_train)
+        class_weights = class_weight.compute_class_weight(class_weight='balanced',
+                                                          classes=np.unique(y_train),
+                                                          y=y_train)
         class_weight_ = {0: class_weights[0], 1: class_weights[1]}
         # print(class_weight_)
 
@@ -232,5 +234,3 @@ if __name__ == '__main__':
                         line.insert(0, 'Negative')
                 i += 1
                 w.writerow(line)
-
-
