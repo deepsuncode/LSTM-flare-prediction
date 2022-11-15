@@ -15,11 +15,13 @@
 #   express or implied warranty.
 # =========================================================================
 import pandas as pd
+import numpy as np
 from keras.utils import np_utils
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import class_weight
 from keras.models import *
 from keras.layers import *
+from keras import regularizers
 from sklearn.metrics import confusion_matrix
 import sys
 
@@ -288,7 +290,7 @@ def lstm(nclass, n_features, series_len):
     layer1_out = Dense(200, activation='relu')(attention_mul)
     layer2_out = Dense(500, activation='relu')(layer1_out)
     output = Dense(nclass, activation='softmax', activity_regularizer=regularizers.l2(0.0001))(layer2_out)
-    model = Model(input=[inputs], output=output)
+    model = Model(inputs=[inputs], outputs=output)
     return model
 
     # result_file = '../data/result.csv'
@@ -373,7 +375,7 @@ if __name__ == '__main__':
                     y_train.append(y_train_fold[j][k])
 
         for test_itr in range(num_of_fold):
-            print('------------- ' + str(train_itr * num_of_fold + test_itr) + ' iteration----------------')
+            print('------------- ' + str(train_itr * num_of_fold + test_itr + 1) +' of ' + str(num_of_fold**2) + ' iteration----------------')
             X_valid = []
             y_valid = []
             X_test = []
@@ -398,9 +400,9 @@ if __name__ == '__main__':
             y_valid_tr = data_transform(y_valid)
             y_test_tr = data_transform(y_test)
 
-            class_weights = class_weight.compute_class_weight('balanced',
-                                                              np.unique(y_train),
-                                                              y_train)
+            class_weights = class_weight.compute_class_weight(class_weight='balanced',
+                                                              classes=np.unique(y_train),
+                                                              y=y_train)
             class_weight_ = {0: class_weights[0], 1: class_weights[1]}
 
             model = lstm(nclass, n_features, series_len)

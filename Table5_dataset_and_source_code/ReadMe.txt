@@ -11,8 +11,7 @@ The second argument "C" denotes that the program will run for the >=C class.
 
 The output obtained by executing the above command is stored in the file named output in the zip. This output file contains the performance metric values calculated by our program using the optimal threshold that maximizes TSS.
 
-Our program is run on Python 3.6.8, Keras 2.2.4, and TensorFlow 1.12.0.
-
+Our program is run on Python 3.10.7, Keras 2.10.0, TensorFlow 2.10.0.
 
 
 

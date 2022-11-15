@@ -24,7 +24,7 @@ import csv
 import sys
 import numpy as np
 import os
-
+from keras import regularizers
 
 # data_mean = [9.26048596e+02, 2.58664488e-01, 1.06633638e+02, 5.11085855e-01,
 #              6.24011676e+02, 2.04194132e+23, 2.33909547e+01, 1.90406673e+13,
@@ -154,7 +154,7 @@ def lstm(nclass, n_features, series_len):
     layer1_out = Dense(200, activation='relu')(attention_mul)
     layer2_out = Dense(500, activation='relu')(layer1_out)
     output = Dense(nclass, activation='softmax', activity_regularizer=regularizers.l2(0.0001))(layer2_out)
-    model = Model(input=[inputs], output=output)
+    model = Model(inputs=[inputs], outputs=output)
     return model
 
 
@@ -184,8 +184,9 @@ if __name__ == '__main__':
         y_train = np.array(y_train_data)
         y_train_tr = data_transform(y_train)
 
-        class_weights = class_weight.compute_class_weight('balanced',
-                                                          np.unique(y_train), y_train)
+        class_weights = class_weight.compute_class_weight(class_weight='balanced',
+                                                          classes=np.unique(y_train),
+                                                          y=y_train)
         class_weight_ = {0: class_weights[0], 1: class_weights[1]}
         # print(class_weight_)
 
@@ -227,5 +228,3 @@ if __name__ == '__main__':
                         line.insert(0, 'Negative')
                 i += 1
                 w.writerow(line)
-
-
