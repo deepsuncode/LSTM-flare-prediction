@@ -15,7 +15,7 @@ The usage is given as follows:
 
 The first argument "LSTMflare.py" is the Python program file name.
 The second argument "M5" denotes that the program will make predictions of >=M5.0 class flares.
-The third argument "0" denotes that the program will load and use the pre-trained model, named model.h5. If one would like to re-train the model, change "0" to "1".
+The third argument "0" denotes that the program will load and use the pre-trained model, named model.keras. If one would like to re-train the model, change "0" to "1".
 
 The output obtained by executing the above command is stored in the file named output in the zip. This output file is the same as the normalized_testing file except that it has one additional column (the first column) titled "Predicted Label", which contains labels predicted by our program using a probability threshold of 75%.
 
